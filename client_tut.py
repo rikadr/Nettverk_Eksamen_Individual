@@ -37,10 +37,20 @@ while True:
             username = client_socket.recv(username_length).decode("utf-8")
 
             message_header = client_socket.recv(HEADER_LENGTH)
+            message_length = int(message_header.decode("utf-8").strip())
+            message = username = client_socket.recv(message_length).decode("utf-8")
 
+            print(f"{username} > {message}")
 
+    except IOError as e:
+            if e.errno != errno.EAGAIN and errno != errno.EWOULDBLOCK:
+                print("Lesningsfeil", str(e))
+                sys.exit()
+            continue
 
-    except:
+    except Exception as e:
+        print("Generell feil: ",str(e))
+        sys.exit()
         pass
 
 
