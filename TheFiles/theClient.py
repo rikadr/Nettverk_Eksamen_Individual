@@ -20,17 +20,28 @@ print(f"{IP}:{PORT} confirmed\n")
 bots = ["Peder", "Fredrik", "Rikard", "Maren"]  # List of available bots to choose from
 
 while True:  # Loop to request bot choice
-    botList = "Available bots: "
+    botList = "Available bots: "    # String to add all bot names to
     for idx, item in enumerate(bots):
-        botList += f"{idx + 1}={item}  "
+        botList += f"{idx + 1}={item}  "    # adds each bot name to string
     print(botList)
 
-    BOT = input("Choose bot number > ")  # asks for bot name input
+    bot_number = input("Choose bot number > ")  # asks for bot name input
+    if len(bots) > int(bot_number) - 1 >= 0:  # checks if input is within range of bots
+        print(f"You selected bot {bot_number}: {bots[int(bot_number) - 1]}")
+        break  # stops loop after a bot is chosen
 
-    if len(bots) > int(BOT) - 1 >= 0:  # checks if input is within range of
-        print(f"You selected bot {BOT}: {bots[int(BOT) - 1]}")
-        break  # stops loop after a match is found
+    # Prints if user input is not valid
+    print(f"{bot_number} is not an available choice. Please try again.\n")
 
-    print(f"{BOT} is not a registered bot. Please try again.\n")
+
+def recieve_from_server():
+    print("Recieving now <<<")
+
+    # if recieve "USERNAME?":
+        # send_to_server(username)
+
+
+def send_to_server(message):
+    print(f"Sending {message} now >>>")
 
 
