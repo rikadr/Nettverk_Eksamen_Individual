@@ -50,7 +50,7 @@ def receive_from_clients(client):
     print("Recieving now...")
     while True:
         try:
-            message = client.connection.recv(1024)
+            message = client.connection.recv(1024).decode(utf8)
             send_to_clients(client.username, message)
         except:
             client.connection.close()  # closes connection if unable to receive from client
@@ -64,6 +64,7 @@ def receive_from_clients(client):
 def send_to_clients(sender, message):
     print("Sending now...")
     for client in clients_list:
-        client.connection.send(sender + "\t\t" + message)
+        client.connection.send((sender + "\t\t" + message).encode(utf8))
+
 
 listen_for_clients()
