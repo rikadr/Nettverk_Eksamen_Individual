@@ -29,7 +29,7 @@ def listen_for_clients():
         print(f"Accepted connection from {str(address)}")
 
         # Asks for username from client and assigns username
-        connection.send("USERNAME?".encode(utf8))
+        connection.send("USERNAME".encode(utf8))
         username = connection.recv(1024).decode(utf8)
         client = Client()   # creates a Client object for the new client and adds attributes
         client.connection = connection
@@ -64,7 +64,8 @@ def receive_from_clients(client):
 def send_to_clients(sender, message):
     print("Sending now...")
     for client in clients_list:
-        client.connection.send((sender + "\t\t" + message).encode(utf8))
+        client.connection.send("This is a standard message from the server".encode(utf8))
+        # client.connection.send((sender + "\t\t" + message).encode(utf8))
 
 
 listen_for_clients()

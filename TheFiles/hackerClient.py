@@ -10,8 +10,10 @@ def receive():
     while True:                                                 #making valid connection
         try:
             message = client.recv(1024).decode(utf8)
-            if message == 'USERNAME?':
+            if message == 'USERNAME':
+                print("SENDING USERNAME")
                 client.send(nickname.encode(utf8))
+                client.close()
             else:
                 print(message)
         except:                                                 #case on wrong ip/port details
@@ -22,6 +24,7 @@ def write():
     while True:                                                 #message layout
         message = '{}: {}'.format(nickname, input(''))
         client.send(message.encode(utf8))
+
 
 receive_thread = threading.Thread(target=receive)               #receiving multiple messages
 receive_thread.start()
