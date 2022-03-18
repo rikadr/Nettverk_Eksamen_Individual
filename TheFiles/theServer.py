@@ -65,3 +65,5 @@ def send_to_clients(sender, message):
     print("Sending now...")
     for client in clients_list:
         client.connection.send(sender + "\t\t" + message)
+
+listen_for_clients()
