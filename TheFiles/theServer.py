@@ -3,8 +3,8 @@ import threading
 
 utf8 = "utf-8"
 server_username = "*Server*"
-ip = "127.0.10.1"
-port = 3000
+ip = "127.0.0.1"
+port = 7976
 
 s_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Creating a TCP/IP socket
 # server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # dont know if i need
@@ -12,13 +12,14 @@ s_socket.bind((ip, port))  # binds the ip address and port
 s_socket.listen()  # Have the server listen for client connections
 
 
-class Client():
+class Client:
     """A class to hold the client connection and username"""
     connection = None
     username = None
 
 
 clients_list = []    # A list to hold the client objects
+
 
 # Function to continuously listen for new client connections
 def listen_for_clients():
