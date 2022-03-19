@@ -1,5 +1,6 @@
 import socket
 import threading
+import random
 
 utf8 = "utf-8"
 server_username = "*Server*"
@@ -12,6 +13,7 @@ s_socket.bind((ip, port))  # binds the ip address and port
 s_socket.listen()  # Have the server listen for client connections
 
 clients_list = []    # A list to hold the client objects
+
 
 
 # A class to hold the client connection and username
@@ -76,6 +78,7 @@ def send_to_clients(sender, message):
             client.connection.send(output_string.encode(utf8))
 
 
+# function to print usernames of all connected clients to console
 def print_clients():
     all_client_usernames = "Remaining clients usernames: "
     for client in clients_list:
@@ -83,5 +86,29 @@ def print_clients():
     print(all_client_usernames)
 
 
+# function to construct and assemble a random request. Verb can be user input
+def construct_action_request(user_input):
+    # lists of predetermined sentences and actions
+    sentence_list = ["Does anyone want to {}?", "Who's up for some {}ing?", "Let's {}!", "{}ing. Yay or nay?"]
+    action_list = ["clean", "fight", "cook", "fish", "sing", "relax", "cheat", "practice", "ski", "talk", "write"]
+    output_string = random.choice(sentence_list)  # picks a random sentence
+
+    if user_input == "":    # without user input
+        output_string = output_string.format(random.choice(action_list))
+    else:                   # with user input
+        output_string = output_string.format(user_input)
+    return output_string
+
+
+def user_input_send_action_request():
+    while True:
+        user_input = input("Press 'ENTER' to send random action request OR type your own action ...\n")
+        send_to_clients(server_username, construct_action_request(user_input))
+
+
+user_input_thread = threading.Thread(target=user_input_send_action_request)
+user_input_thread.start()
+
 # initiates the server by starting the listening-loop
 listen_for_clients()
+
