@@ -72,7 +72,8 @@ def send_to_clients(sender, message):
     # print("Output string: " + output_string)
     for client in clients_list:
         # print(f"Going to send ''{message}'' to {client.username}")
-        client.connection.send(output_string.encode(utf8))
+        if client.username != sender:
+            client.connection.send(output_string.encode(utf8))
 
 
 def print_clients():

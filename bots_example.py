@@ -23,7 +23,7 @@ def chuck(a, b = None):
         return "What? {} sucks. Not doing that.".format(action)
     return "I don't care!"
 
-action = random.choice(["work", "play", "eat", "cry", "sleep", "fight"])
+action = random.choice(["gagg"])
 
 print("\nMe: Do you guys want to {}? \n".format(action))
 print("Alice: {}".format(alice(action)))
