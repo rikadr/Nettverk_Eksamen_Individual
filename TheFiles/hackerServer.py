@@ -4,6 +4,7 @@ import socket, threading                                                #Librari
 host = '127.0.0.1'                                                      #LocalHost
 port = 7976                                                             #Choosing unreserved port
 
+
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)              #socket initialization
 server.bind((host, port))                                               #binding host and port to socket
 server.listen()
@@ -11,9 +12,11 @@ server.listen()
 clients = []
 nicknames = []
 
+
 def broadcast(message):                                                 #broadcast function declaration
     for client in clients:
         client.send(message)
+
 
 def handle(client):
     while True:
@@ -29,6 +32,7 @@ def handle(client):
             nicknames.remove(nickname)
             break
 
+
 def receive():                                                          #accepting multiple clients
     while True:
         client, address = server.accept()
@@ -42,5 +46,6 @@ def receive():                                                          #accepti
         client.send('Connected to server!'.encode('ascii'))
         thread = threading.Thread(target=handle, args=(client,))
         thread.start()
+
 
 receive()
