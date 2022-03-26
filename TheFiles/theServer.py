@@ -1,6 +1,7 @@
 import socket
 import threading
 import random
+import bots
 
 utf8 = "utf-8"
 server_username = "*Server*"
@@ -93,7 +94,7 @@ def print_clients():
 def construct_action_request(user_input):
     # lists of predetermined sentences and actions
     sentence_list = ["Does anyone want to {}?", "Who's up for some {}ing?", "Let's {}!", "{}ing. Yay or nay?"]
-    action_list = ["clean", "fight", "cook", "fish", "sing", "relax", "cheat", "practice", "ski", "talk", "write"]
+    action_list = bots.action_list
     output_string = random.choice(sentence_list)  # picks a random sentence
 
     if user_input == "":    # without user input
