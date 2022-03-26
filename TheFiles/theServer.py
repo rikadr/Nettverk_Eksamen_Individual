@@ -15,7 +15,6 @@ s_socket.listen()  # Have the server listen for client connections
 clients_list = []    # A list to hold the client objects
 
 
-
 # A class to hold the client connection and username
 class Client:
     """A class to hold the client connection and username"""
@@ -30,22 +29,26 @@ def listen_for_clients():
         connection, address = s_socket.accept()  # wait for a new connecting client and accept
         # print(f"Accepted connection from {str(address)}")
 
-        # Asks for username from client and assigns username
-        connection.send("USERNAME".encode(utf8))
-        username = connection.recv(1024).decode(utf8)
-        client = Client()   # creates a Client object for the new client and adds attributes
-        client.connection = connection
-        client.username = username
-        clients_list.append(client)  # adds new client to the list of connected clients
-        print(f"{client.username} connected!")
+        try:
+            # Asks for username from client and assigns username
+            connection.send("USERNAMEREQUEST".encode(utf8))
+            username = connection.recv(1024).decode(utf8)
+            client = Client()   # creates a Client object for the new client and adds attributes
+            client.connection = connection
+            client.username = username
+            clients_list.append(client)  # adds new client to the list of connected clients
+            print(f"{client.username} connected!")
 
-        # broadcasts to all connected clients about the new joined client
-        send_to_clients(server_username, f"{client.username} joined the server")
+            # broadcasts to all connected clients about the new joined client
+            send_to_clients(server_username, f"{client.username} joined the server")
 
-        # generating a new thread for all new connected clients
-        # to be able to listen for new messages from all clients simultaneously
-        client_thread = threading.Thread(target=receive_from_clients, args=(client,))
-        client_thread.start()
+            # generating a new thread for all new connected clients
+            # to be able to listen for new messages from all clients simultaneously
+            client_thread = threading.Thread(target=receive_from_clients, args=(client,))
+            client_thread.start()
+        except:
+            connection.close()
+            print(f"Unable to reach attempted connection: {address}")
 
 
 # function to continuously listen for new messages from given client

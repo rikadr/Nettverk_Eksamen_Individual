@@ -8,13 +8,14 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)      #socket initiali
 client.connect(('127.0.0.1', 7976))                             #connecting client to server
 print("Connected!")
 
+
 def receive():
     while True:                                                 #making valid connection
         # print("Receiving now")
         try:
             message = client.recv(1024).decode(utf8)
             # print(f"Got the message ''{message}'' now")
-            if message == 'USERNAME':
+            if message == 'USERNAMEREQUEST':
                 print("SENDING USERNAME")
                 client.send(nickname.encode(utf8))
                 #client.close()
