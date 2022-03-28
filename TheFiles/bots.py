@@ -83,14 +83,14 @@ def bot_rikard(actions):
     name = "Rikard"
     if actions is None:
         return name
-    print("Bot is rikard hallo")
+    return "Bot is rikard hallo"
 
 
 def bot_maren(actions):
     name = "Maren"
     if actions is None:
         return name
-    print("Bot is maren hallo")
+    return "Bot is maren hallo"
 
 
 def run_bot(message, bot_id, get_usernames):
