@@ -5,8 +5,7 @@ import random
 
 # list of known actions
 action_list = ["clean", "fight", "cook", "fish", "sing", "relax", "cheat", "ski", "talk", "shit", "listen", "eat",
-               "sleep", "fuck", "fuck", "fuck", "fuck", "fuck", "fuck", "fuck", "fuck", "fuck", "fuck"]
-
+               "sleep", "fuck"]
 
 
 def extract_actions(raw_message):
@@ -29,51 +28,55 @@ def bot_peder(actions):
     if actions is None:
         return name
 
-    print(f"Now running bot: {name}")
+    # print(f"Now running bot: {name}")
     action_count = len(actions)
-    print("Number og actions received: " + str(action_count))
+    # print("Number og actions received: " + str(action_count))
+    # print(actions)
 
-    reply_0_actions = \
-        ["Don't really wanna do that.",
+    reply_0_actions = ["Don't really wanna do that.",
          "Lame! Would much rather {}".format(random.choice(action_list)),
          "What did you suggest just now?!",
          "Do not expect to see me there...",
          "I can think of {} better things to do".format(random.randrange(0, 100)),
          "Even {}-{}ing sounds more fun".format(random.choice(action_list), random.choice(action_list))]
 
-    reply_1_action = \
-        ["Of all things to do in this world you really want to do some stupid {}ing?".format(actions[0]),
-         "I'll think about it. {}ing isn't really my thing ...".format(random.choice(actions)),
-         "I'm down to {} if you give me ${}".format(random.choice(actions), random.randrange(1, 1500))]
+    if action_count >= 1:
+        reply_1_action = ["Of all things to do in this world you really want to "
+                          "do some stupid {}ing?".format(actions[0]),
+                          "I'll think about it. {}ing isn't really my thing ...".format(random.choice(actions)),
+                          "I'm down to {} if you give me ${}".format(random.choice(actions), random.randrange(1, 1500))]
 
-    reply_multiple_actions = \
-        ["Make your mind up, {} or {}?".format(actions[1], actions[0]),
-         "How about some {}-{}ing?".format(random.choice(actions), random.choice(action_list)),
-         "You can go {} and i'll go {}".format(random.choice(actions), random.choice(action_list)),
-         "You can go {} and i'll go {}".format(actions[0], actions[1])]
+    if action_count >= 2:
+        reply_multiple_actions = ["Make your mind up, {} or {}?".format(actions[1], actions[0]),
+                            "How about some {}-{}ing?".format(random.choice(actions), random.choice(action_list)),
+                            "You can go {} and i'll go {}".format(random.choice(actions), random.choice(action_list)),
+                            "You can go {} and i'll go {}".format(actions[0], actions[1])]
 
+    # print("NOW checking how many actions to do")
     if action_count == 0:
-        print("0 actions")
-        print(random.choice(reply_0_actions))
+        # print("0 actions")
+        return random.choice(reply_0_actions)
 
     elif action_count == 1:
-        print("1 actions")
-        print(random.choice([random.choice(reply_0_actions), random.choice(reply_1_action)]))
+        # print("1 actions")
+        return random.choice([random.choice(reply_0_actions), random.choice(reply_1_action)])
 
     elif action_count >= 2:
-        print("2 or more actions")
-        print(random.choice([random.choice(reply_0_actions), random.choice(reply_1_action),
-                             random.choice(reply_multiple_actions)]))
-
+        # print("2 or more actions")
+        return random.choice([random.choice(reply_0_actions), random.choice(reply_1_action),
+                             random.choice(reply_multiple_actions)])
     else:
-        print("Unknown action count")
+        return "Unknown action count"
 
 
 def bot_fredrik(actions):
     name = "Fredrik"
     if actions is None:
         return name
-    print("Bot is fredrik hallo")
+
+    # print("Bot is fredrik hallo")
+
+    return f"Fredrik is my name an this is the list: {actions}"
 
 
 def bot_rikard(actions):
@@ -124,3 +127,6 @@ def run_bot(message, bot_id, get_usernames):
 
 # End: Bots
 #####################################################################################
+
+
+# print(run_bot("Testnessame fish", 1, False))

@@ -81,29 +81,32 @@ while True:  # Loop to request bot choice
 
 
 def receive_from_server(client_username):
-    print("Receiving now <<<")
+    # print("Receiving now <<<")
     while True:
         try:
+            # print("Going to receive new message")
             message = c_socket.recv(1024).decode(utf8)
-            print(f"I GOT *{message}*")
+            # print(f"I GOT *{message}*")
 
             if message == "USERNAMEREQUEST":  # If received message is a username request
-                print("SENDING USERNAME")
+                # print("SENDING USERNAME")
                 send_to_server(client_username)
             else:  # If received message is a normal message
                 print(message)
                 # replies to message if client is a bot and sender is not a bot
-                print("I just printed the message, going to check if a should reply")
-                print(f"Client_is_bot: {client_is_bot}")
-                print(f"Bot check: {check_to_reply(message)}")
-                # if client_is_bot and bots.check_to_reply(message):
-                #     print(f"I WILL REPLY TO THIS: *{message}*")
-                #     bot_reply_message = bots.run_bot(message, bot_ID, False)    # prepares reply string
-                #     print(f"I WILL SEND THIS^{bot_reply_message}^")
-                #     send_to_server(bot_reply_message)   # sends message to server
+                # print("I just printed the message above. Now going to check if a should reply")
+                if client_is_bot and check_to_reply(message):
+                    # print(f"I WILL REPLY TO THIS: *{message}*")
+                    bot_reply_message = bots.run_bot(message, bot_ID, False)    # prepares reply string
+                    # print(f"I WILL SEND THIS^{bot_reply_message}^")
+                    send_to_server(bot_reply_message)   # sends message to server
+                    print(f"You: {bot_reply_message}")
+
 
         except:
-            sys.exit("Unable to receive from server")
+            print("An error occured! You disconnected from the server")
+            c_socket.close()
+            break
 
 
 def type_message():
@@ -113,7 +116,7 @@ def type_message():
 
 
 def send_to_server(message):
-    print(f"Sending {message} now >>>")
+    # print(f"Sending {message} now >>>")
     c_socket.send(message.encode(utf8))
 
 
@@ -122,19 +125,21 @@ def send_to_server(message):
 
 
 def check_to_reply(message):
-    print(f"Gonna fetch list of usernames")
+    # print(f"Gonna fetch list of usernames")
     try:
-        print(f"in tryyyyy with ^{message}^")
-        sender_username = message.split(":")  # extracts the sender username from received message
-    except:
-        print("Failed to split")
+        # print(f"in tryyyyy with ^{message}^")
+        # print(f"This is the username list: {bot_username_list}")
+        for name in bot_username_list:
+            if name in message:
+                # print("Bot should not reply")
+                return False  # False means bot should not reply
 
-    print("Sender: " + sender_username)
-
-    if sender_username in bot_username_list:  # checks if sender of message is a bot
-        return False  # False means bot should not reply
-    else:
+        # print("Bot should reply")
         return True  # True means bot should reply
+
+    except:
+        print("Failed to check for names")
+        return False
 
 
 #####################################################################################
@@ -148,7 +153,7 @@ else:
     username = input("Type your username: ")    # asks input for username if manual input is chosen
 
 # receiving messages with following thread
-print(f"Starting receive thread for *{username}*")
+# print(f"Starting receive thread for *{username}*")
 receive_from_server_thread = threading.Thread(target=receive_from_server, args=(username,))
 receive_from_server_thread.start()
 
@@ -157,7 +162,7 @@ if not client_is_bot:
     type_message_thread = threading.Thread(target=type_message)
     type_message_thread.start()
 
-print("ALL THROUGH")
+# print("ALL THROUGH")
 # run_bot([random.choice(action_list), random.choice(action_list), random.choice(action_list)])
 
 
