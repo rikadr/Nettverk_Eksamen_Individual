@@ -7,7 +7,7 @@ import sys
 utf8 = "utf-8"
 server_username = "*Server*"
 ip = "127.0.0.1"
-port = 7976
+port = 7975
 
 s_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Creating a TCP/IP socket
 # server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # dont know if i need

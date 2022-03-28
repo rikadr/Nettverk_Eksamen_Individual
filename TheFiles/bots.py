@@ -74,23 +74,31 @@ def bot_fredrik(actions):
     if actions is None:
         return name
 
-    # print("Bot is fredrik hallo")
-
-    return f"Fredrik is my name an this is the list: {actions}"
+    reply_0_actions = ["Have not tried that before, but im down to try it!", "Alright, let's do it"]
+    reply_multiple_actions = ["OK, {}ing it is!".format(random.choice(actions)),
+                              "I LOVE {}ing".format(random.choice(actions))]
+    return random.choice([random.choice(reply_0_actions), random.choice(reply_multiple_actions)])
 
 
 def bot_rikard(actions):
     name = "Rikard"
     if actions is None:
         return name
-    return "Bot is rikard hallo"
+
+    reply_0_actions = ["How about next week?",
+                       "Sorry, can't. Have spent {} hours gaming, "
+                       "need to catch up on school".format(random.randrange(1, 100))]
+    reply_multiple_actions = ["... {}ing is more fun".format(random.choice(action_list)),
+                              "{}ing is cool and all, but have you tried {}?!"
+                              .format(random.choice(actions), random.choice(action_list))]
+    return random.choice([random.choice(reply_0_actions), random.choice(reply_multiple_actions)])
 
 
 def bot_maren(actions):
     name = "Maren"
     if actions is None:
         return name
-    return "Bot is maren hallo"
+    return random.choice(["No", "Nah", "Never", "Next year maybe", "Why am i even in this chat?"])
 
 
 def run_bot(message, bot_id, get_usernames):

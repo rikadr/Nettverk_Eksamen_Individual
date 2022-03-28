@@ -24,7 +24,7 @@ utf8 = "utf-8"
 if input("Setup mode: (0) Normal, (1) Auto") == "1":
     print("Auto setup")
     IP = "127.0.0.1"
-    PORT = 7976
+    PORT = 7975
 else:
     print("Manual Setup")
     # Getting command line parameters
