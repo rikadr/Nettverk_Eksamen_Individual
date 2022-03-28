@@ -2,6 +2,7 @@ import socket
 import threading
 import random
 import bots
+import sys
 
 utf8 = "utf-8"
 server_username = "*Server*"
@@ -34,6 +35,7 @@ def listen_for_clients():
             # Asks for username from client and assigns username
             connection.send("USERNAMEREQUEST".encode(utf8))
             username = connection.recv(1024).decode(utf8)
+            print(f"SERVER GOT USERNAME: *{username}*")
             client = Client()   # creates a Client object for the new client and adds attributes
             client.connection = connection
             client.username = username
@@ -58,8 +60,9 @@ def receive_from_clients(client):
     while True:
         try:
             message = client.connection.recv(1024).decode(utf8)
-            print(f"Message received from {client.username}: {message}")
+            print(f"Message received from {client.username}: ^{message}^")
             send_to_clients(client.username, message)
+            sys.exit("Done sending message. Now exit")
         except:
             print(f"Error in receiving from {client.username}. Disconnecting client ...")
             client.connection.close()  # closes connection if unable to receive from client
@@ -73,11 +76,11 @@ def receive_from_clients(client):
 
 # Function to broadcast new messages to all connected clients
 def send_to_clients(sender, message):
-    # print("Sending now...")
+    print("Sending now...")
     output_string = str(sender) + ": " + str(message)
-    # print("Output string: " + output_string)
+    print("Output string: " + output_string)
     for client in clients_list:
-        # print(f"Going to send ''{message}'' to {client.username}")
+        print(f"Going to send ^{message}^ to {client.username}")
         if client.username != sender:
             client.connection.send(output_string.encode(utf8))
 

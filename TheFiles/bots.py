@@ -1,14 +1,17 @@
 import random
+
 #####################################################################################
 # Start: Bots
 
+# list of known actions
 action_list = ["clean", "fight", "cook", "fish", "sing", "relax", "cheat", "ski", "talk", "shit", "listen", "eat",
                "sleep", "fuck", "fuck", "fuck", "fuck", "fuck", "fuck", "fuck", "fuck", "fuck", "fuck"]
 
 
 def check_to_reply(message):
-    bot_username_list = run_bot(None, None, True)
-    sender_username = message.split(":")
+    print(f"Gonna fetch list of usernames")
+    bot_username_list = run_bot(None, None, True)  # returns a list of all bots usernames
+    sender_username = message.split(":")  # extracts the sender username from received message
     print("Sender: " + sender_username)
 
     if sender_username in bot_username_list:  # checks if sender of message is a bot
@@ -18,8 +21,18 @@ def check_to_reply(message):
 
 
 def extract_actions(raw_message):
-    print(f"in extract_actions {raw_message}")
-    return raw_message
+    # print(f"in extract_actions {raw_message}")
+    if raw_message is None:
+        return None
+
+    message_lowercase = raw_message.lower()
+    actions = []
+
+    for action in action_list:  # for every known action
+        if action in message_lowercase:  # check if known action is mentioned in message
+            actions.append(action)  # adds action if known action is found mentioned in message
+
+    return actions  # returns list of found known actions
 
 
 def bot_peder(actions):
@@ -89,8 +102,8 @@ def bot_maren(actions):
 
 
 def run_bot(message, bot_id, get_usernames):
+    actions = extract_actions(message)  # extract actions from message
     # a switch case to run the correct bot function based on selected bot_ID
-    actions = None
     switcher = {
         1: lambda: bot_peder(actions),
         2: lambda: bot_fredrik(actions),
@@ -98,28 +111,27 @@ def run_bot(message, bot_id, get_usernames):
         4: lambda: bot_maren(actions)
     }
 
+    # code to return all bot usernames if boolean get_usernames is true
     if get_usernames:
-        bot_username_list = []
+        # print("Im now getting usernames")
+        bot_username_list = []  # prepares list to append all usernames
         i = 1
-        while True:
+        while True:  # runs through all switch functions.
             try:
-                bot_username_list.append(switcher.get(i, )())
+                bot_username_list.append(switcher.get(i, )())  # runs bot-functions with no parameter to get username
                 i += 1
             except:
-                break
+                break  # stops when through all switch cases.
         return bot_username_list
 
     if message is None:
         actions = None
-        return switcher.get(bot_id,)()
+        return switcher.get(bot_id, )()
 
     actions = extract_actions(message)
 
     # runs chosen lambda function, returns username from bot function
     return switcher.get(bot_id, )()
-
-
-
 
 # End: Bots
 #####################################################################################

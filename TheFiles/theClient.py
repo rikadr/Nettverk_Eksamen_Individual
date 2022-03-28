@@ -85,16 +85,22 @@ def receive_from_server(client_username):
     while True:
         try:
             message = c_socket.recv(1024).decode(utf8)
+            print(f"I GOT *{message}*")
 
             if message == "USERNAMEREQUEST":  # If received message is a username request
                 print("SENDING USERNAME")
-                c_socket.send(client_username.encode(utf8))
+                send_to_server(client_username)
             else:  # If received message is a normal message
                 print(message)
                 # replies to message if client is a bot and sender is not a bot
-                if client_is_bot and bots.check_to_reply(message):
-                    bot_reply_message = bots.run_bot(message, bot_ID, False)
-                    send_to_server(bot_reply_message)
+                print("I just printed the message, going to check if a should reply")
+                print(f"Client_is_bot: {client_is_bot}")
+                print(f"Bot check: {bots.check_to_reply(message)}")
+                # if client_is_bot and bots.check_to_reply(message):
+                #     print(f"I WILL REPLY TO THIS: *{message}*")
+                #     bot_reply_message = bots.run_bot(message, bot_ID, False)    # prepares reply string
+                #     print(f"I WILL SEND THIS^{bot_reply_message}^")
+                #     send_to_server(bot_reply_message)   # sends message to server
 
         except:
             sys.exit("Unable to receive from server")
@@ -125,6 +131,7 @@ else:
     username = input("Type your username: ")    # asks input for username if manual input is chosen
 
 # receiving messages with following thread
+print(f"Starting receive thread for *{username}*")
 receive_from_server_thread = threading.Thread(target=receive_from_server, args=(username,))
 receive_from_server_thread.start()
 
@@ -133,7 +140,7 @@ if not client_is_bot:
     type_message_thread = threading.Thread(target=type_message)
     type_message_thread.start()
 
-# print("ALL THROUGH")
+print("ALL THROUGH")
 # run_bot([random.choice(action_list), random.choice(action_list), random.choice(action_list)])
 
 
