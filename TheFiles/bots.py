@@ -8,17 +8,6 @@ action_list = ["clean", "fight", "cook", "fish", "sing", "relax", "cheat", "ski"
                "sleep", "fuck", "fuck", "fuck", "fuck", "fuck", "fuck", "fuck", "fuck", "fuck", "fuck"]
 
 
-def check_to_reply(message):
-    print(f"Gonna fetch list of usernames")
-    bot_username_list = run_bot(None, None, True)  # returns a list of all bots usernames
-    sender_username = message.split(":")  # extracts the sender username from received message
-    print("Sender: " + sender_username)
-
-    if sender_username in bot_username_list:  # checks if sender of message is a bot
-        return False  # False means bot should not reply
-    else:
-        return True  # True means bot should reply
-
 
 def extract_actions(raw_message):
     # print(f"in extract_actions {raw_message}")

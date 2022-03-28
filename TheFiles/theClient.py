@@ -95,7 +95,7 @@ def receive_from_server(client_username):
                 # replies to message if client is a bot and sender is not a bot
                 print("I just printed the message, going to check if a should reply")
                 print(f"Client_is_bot: {client_is_bot}")
-                print(f"Bot check: {bots.check_to_reply(message)}")
+                print(f"Bot check: {check_to_reply(message)}")
                 # if client_is_bot and bots.check_to_reply(message):
                 #     print(f"I WILL REPLY TO THIS: *{message}*")
                 #     bot_reply_message = bots.run_bot(message, bot_ID, False)    # prepares reply string
@@ -119,6 +119,23 @@ def send_to_server(message):
 
 # End: Sending/Receiving
 #####################################################################################
+
+
+def check_to_reply(message):
+    print(f"Gonna fetch list of usernames")
+    try:
+        print(f"in tryyyyy with ^{message}^")
+        sender_username = message.split(":")  # extracts the sender username from received message
+    except:
+        print("Failed to split")
+
+    print("Sender: " + sender_username)
+
+    if sender_username in bot_username_list:  # checks if sender of message is a bot
+        return False  # False means bot should not reply
+    else:
+        return True  # True means bot should reply
+
 
 #####################################################################################
 # Start: Program ...
