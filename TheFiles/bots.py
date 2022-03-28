@@ -9,7 +9,6 @@ action_list = ["clean", "fight", "cook", "fish", "sing", "relax", "cheat", "ski"
 
 
 def extract_actions(raw_message):
-    # print(f"in extract_actions {raw_message}")
     if raw_message is None:
         return None
 
@@ -28,11 +27,7 @@ def bot_peder(actions):
     if actions is None:
         return name
 
-    # print(f"Now running bot: {name}")
     action_count = len(actions)
-    # print("Number og actions received: " + str(action_count))
-    # print(actions)
-
     reply_0_actions = ["Don't really wanna do that.",
          "Lame! Would much rather {}".format(random.choice(action_list)),
          "What did you suggest just now?!",
@@ -52,17 +47,13 @@ def bot_peder(actions):
                             "You can go {} and i'll go {}".format(random.choice(actions), random.choice(action_list)),
                             "You can go {} and i'll go {}".format(actions[0], actions[1])]
 
-    # print("NOW checking how many actions to do")
     if action_count == 0:
-        # print("0 actions")
         return random.choice(reply_0_actions)
 
     elif action_count == 1:
-        # print("1 actions")
         return random.choice([random.choice(reply_0_actions), random.choice(reply_1_action)])
 
     elif action_count >= 2:
-        # print("2 or more actions")
         return random.choice([random.choice(reply_0_actions), random.choice(reply_1_action),
                              random.choice(reply_multiple_actions)])
     else:
@@ -113,7 +104,6 @@ def run_bot(message, bot_id, get_usernames):
 
     # code to return all bot usernames if boolean get_usernames is true
     if get_usernames:
-        # print("Im now getting usernames")
         bot_username_list = []  # prepares list to append all usernames
         i = 1
         while True:  # runs through all switch functions.
@@ -135,6 +125,3 @@ def run_bot(message, bot_id, get_usernames):
 
 # End: Bots
 #####################################################################################
-
-
-# print(run_bot("Testnessame fish", 1, False))

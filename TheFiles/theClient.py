@@ -84,21 +84,15 @@ def receive_from_server(client_username):
     # print("Receiving now <<<")
     while True:
         try:
-            # print("Going to receive new message")
             message = c_socket.recv(1024).decode(utf8)
-            # print(f"I GOT *{message}*")
 
             if message == "USERNAMEREQUEST":  # If received message is a username request
-                # print("SENDING USERNAME")
                 send_to_server(client_username)
             else:  # If received message is a normal message
                 print(message)
                 # replies to message if client is a bot and sender is not a bot
-                # print("I just printed the message above. Now going to check if a should reply")
                 if client_is_bot and check_to_reply(message):
-                    # print(f"I WILL REPLY TO THIS: *{message}*")
                     bot_reply_message = bots.run_bot(message, bot_ID, False)    # prepares reply string
-                    # print(f"I WILL SEND THIS^{bot_reply_message}^")
                     send_to_server(bot_reply_message)   # sends message to server
                     print(f"You: {bot_reply_message}")
 
@@ -116,7 +110,6 @@ def type_message():
 
 
 def send_to_server(message):
-    # print(f"Sending {message} now >>>")
     c_socket.send(message.encode(utf8))
 
 
@@ -125,16 +118,10 @@ def send_to_server(message):
 
 
 def check_to_reply(message):
-    # print(f"Gonna fetch list of bot usernames")
     try:
-        # print(f"in tryyyyy with ^{message}^")
-        # print(f"This is the bot username list: {bot_username_list}")
         for name in bot_username_list:
             if name in message:
-                # print(f"Bot should not reply. {name} is a bot")
                 return False  # False means bot should not reply
-
-        # print(f"Bot SHOULD reply. NOT bot")
         return True  # True means bot should reply
 
     except:
@@ -153,7 +140,6 @@ else:
     username = input("Type your username: ")    # asks input for username if manual input is chosen
 
 # receiving messages with following thread
-# print(f"Starting receive thread for *{username}*")
 receive_from_server_thread = threading.Thread(target=receive_from_server, args=(username,))
 receive_from_server_thread.start()
 
@@ -161,9 +147,3 @@ receive_from_server_thread.start()
 if not client_is_bot:
     type_message_thread = threading.Thread(target=type_message)
     type_message_thread.start()
-
-# print("ALL THROUGH")
-# run_bot([random.choice(action_list), random.choice(action_list), random.choice(action_list)])
-
-
-

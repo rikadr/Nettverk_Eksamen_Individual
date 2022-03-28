@@ -26,7 +26,6 @@ class Client:
 
 # Function to continuously listen for new client connections
 def listen_for_clients():
-    # print("Server started up! Now listening for connecting clients ...")
     while True:
         connection, address = s_socket.accept()  # wait for a new connecting client and accept
         # print(f"Accepted connection from {str(address)}")
@@ -60,13 +59,11 @@ def receive_from_clients(client):
     while True:
         try:
             message = client.connection.recv(1024).decode(utf8)
-            # print(f"Message received from {client.username}: ^{message}^")
             if message != "":
                 send_to_clients(client.username, message)
             else:
                 print("Empty message, not sending")
                 exit()
-            # sys.exit("Done sending message. Now exit")
         except:
             print(f"Error in receiving from {client.username}. Disconnecting client ...")
             client.connection.close()  # closes connection if unable to receive from client
@@ -80,14 +77,11 @@ def receive_from_clients(client):
 
 # Function to broadcast new messages to all connected clients
 def send_to_clients(sender, message):
-    # print("Sending now...")
     output_string = str(sender) + ": " + str(message)
     print(output_string)
     for client in clients_list:
 
-        # print(f"Sender: ^{sender}^ client username: ^{client.username}^")
         if client.username != sender:
-            # print(f"Going to send ^{message}^ to {client.username}")
             client.connection.send(output_string.encode(utf8))
 
 
