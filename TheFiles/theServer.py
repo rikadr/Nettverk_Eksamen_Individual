@@ -26,7 +26,7 @@ class Client:
 
 # Function to continuously listen for new client connections
 def listen_for_clients():
-    print("Server started up! Now listening for connecting clients ...")
+    # print("Server started up! Now listening for connecting clients ...")
     while True:
         connection, address = s_socket.accept()  # wait for a new connecting client and accept
         # print(f"Accepted connection from {str(address)}")
@@ -101,23 +101,38 @@ def print_clients():
 
 # function to construct and assemble a random request. Verb can be user input
 def construct_action_request(user_input):
-    # lists of predetermined sentences and actions
+    # lists of sentences
     sentence_list = ["Does anyone want to {}?", "Who's up for some {}ing?", "Let's {}!", "{}ing. Yay or nay?"]
-    action_list = bots.action_list
-    output_string = random.choice(sentence_list)  # picks a random sentence
-
+    action_list = bots.action_list                  # gets list of defined actions from bots.py
+    output_string = random.choice(sentence_list)    # picks a random sentence
     if user_input == "":    # without user input
         output_string = output_string.format(random.choice(action_list))
-    else:                   # with user input
-        output_string = output_string.format(user_input)
+        return output_string
+    try:
+        if 4 >= int(user_input) >= 2:  # without user input number between 2 and 4
+            action_chain = ""
+            for i in range(int(user_input)):
+                action_chain += random.choice(action_list)
+                if i < (int(user_input) - 2):   # formats actions with ", " and " or "
+                    action_chain += ", "
+                elif i == (int(user_input) - 2):
+                    action_chain += " or "
+
+            output_string = output_string.format(action_chain)
+            return output_string
+        else:   # if number is not between 2 and 4
+            output_string = output_string.format(random.choice(action_list))
+    except:
+        output_string = output_string.format(user_input)    # without user input other
     return output_string
 
 
 def user_input_send_action_request():
+    # initial user instructions:
+    print("Press 'ENTER' to send random action request OR type your own action\n"
+          "Type 2 ... 4 to suggest 2 ... 4 random actions.\n")
     while True:
-        # user_input = input("Press 'ENTER' to send random action request OR type your own action ...\n")
         user_input = input("")
-        print("\n")
         send_to_clients(server_username, construct_action_request(user_input))
 
 
@@ -126,4 +141,3 @@ user_input_thread.start()
 
 # initiates the server by starting the listening-loop
 listen_for_clients()
-

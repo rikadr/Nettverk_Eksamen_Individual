@@ -125,16 +125,16 @@ def send_to_server(message):
 
 
 def check_to_reply(message):
-    # print(f"Gonna fetch list of usernames")
+    # print(f"Gonna fetch list of bot usernames")
     try:
         # print(f"in tryyyyy with ^{message}^")
-        # print(f"This is the username list: {bot_username_list}")
+        # print(f"This is the bot username list: {bot_username_list}")
         for name in bot_username_list:
             if name in message:
-                # print("Bot should not reply")
+                # print(f"Bot should not reply. {name} is a bot")
                 return False  # False means bot should not reply
 
-        # print("Bot should reply")
+        # print(f"Bot SHOULD reply. NOT bot")
         return True  # True means bot should reply
 
     except:
