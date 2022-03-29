@@ -1,25 +1,12 @@
 import random
 
-#####################################################################################
-# Start: Bots
 
 # list of known actions
 action_list = ["clean", "fight", "cook", "fish", "sing", "relax", "cheat", "ski", "talk", "shit", "listen", "eat",
                "sleep", "fuck"]
 
-
-def extract_actions(raw_message):
-    if raw_message is None:
-        return None
-
-    message_lowercase = raw_message.lower()
-    actions = []
-
-    for action in action_list:  # for every known action
-        if action in message_lowercase:  # check if known action is mentioned in message
-            actions.append(action)  # adds action if known action is found mentioned in message
-
-    return actions  # returns list of found known actions
+#####################################################################################
+# Start: Bots
 
 
 def bot_peder(actions):
@@ -92,6 +79,20 @@ def bot_maren(actions):
     return random.choice(["No", "Nah", "Never", "Next year maybe", "Why am i even in this chat?"])
 
 
+def extract_actions(raw_message):
+    if raw_message is None:
+        return None
+
+    message_lowercase = raw_message.lower()  # sets all characters to lowercase to match action_list
+    actions = []  # prepares list to add matches to and return
+
+    for action in action_list:  # for every known action
+        if action in message_lowercase:  # check if known action is mentioned in message
+            actions.append(action)  # adds action if known action is found mentioned in message
+
+    return actions  # returns list of found known actions
+
+
 def run_bot(message, bot_id, get_usernames):
     actions = extract_actions(message)  # extract actions from message
     # a switch case to run the correct bot function based on selected bot_ID
@@ -118,7 +119,7 @@ def run_bot(message, bot_id, get_usernames):
         actions = None
         return switcher.get(bot_id, )()
 
-    actions = extract_actions(message)
+    actions = extract_actions(message)  #?????????????????? REDUNDANT? Is above
 
     # runs chosen lambda function, returns username from bot function
     return switcher.get(bot_id, )()
