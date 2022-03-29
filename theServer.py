@@ -2,15 +2,16 @@ import socket
 import threading
 import random
 import bots
-import sys
+
+#####################################################################################
+# Start: Setup
 
 utf8 = "utf-8"
 server_username = "*Server*"
-ip = "127.0.0.1"
-port = 7975
+ip = "127.0.0.20"
+port = 7997
 
 s_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Creating a TCP/IP socket
-# server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # dont know if i need
 s_socket.bind((ip, port))  # binds the ip address and port
 s_socket.listen()  # Have the server listen for client connections
 
@@ -24,11 +25,14 @@ class Client:
     username = None
 
 
+# End: Setup
+#####################################################################################
+# Start: Receiving/Sending
+
 # Function to continuously listen for new client connections
 def listen_for_clients():
     while True:
         connection, address = s_socket.accept()  # wait for a new connecting client and accept
-        # print(f"Accepted connection from {str(address)}")
 
         try:
             # Asks for username from client and assigns username
@@ -85,7 +89,11 @@ def send_to_clients(sender, message):
             client.connection.send(output_string.encode(utf8))
 
 
-# function to print usernames of all connected clients to console
+# End: Receiving/Sending
+#####################################################################################
+# Start: User input send message with action
+
+# function to print usernames of all connected clients
 def print_clients():
     all_client_usernames = "Remaining clients usernames: "
     for client in clients_list:
@@ -99,12 +107,14 @@ def construct_action_request(user_input):
     sentence_list = ["Does anyone want to {}?", "Who's up for some {}ing?", "Let's {}!", "{}ing. Yay or nay?"]
     action_list = bots.action_list                  # gets list of defined actions from bots.py
     output_string = random.choice(sentence_list)    # picks a random sentence
+
     if user_input == "":    # without user input
         output_string = output_string.format(random.choice(action_list))
         return output_string
+
     try:
         if 4 >= int(user_input) >= 2:  # without user input number between 2 and 4
-            action_chain = ""
+            action_chain = ""  # prepares string to add all actions to
             for i in range(int(user_input)):
                 action_chain += random.choice(action_list)
                 if i < (int(user_input) - 2):   # formats actions with ", " and " or "
@@ -114,17 +124,20 @@ def construct_action_request(user_input):
 
             output_string = output_string.format(action_chain)
             return output_string
+
         else:   # if number is not between 2 and 4
             output_string = output_string.format(random.choice(action_list))
+
     except:
-        output_string = output_string.format(user_input)    # without user input other
+        output_string = output_string.format(user_input)    # with user input string
+
     return output_string
 
 
 def user_input_send_action_request():
     # initial user instructions:
     print("Press 'ENTER' to send random action request OR type your own action\n"
-          "Type 2 ... 4 to suggest 2 ... 4 random actions.\n")
+          "Type 1 ... 4 to suggest 1 ... 4 random actions.\n")
     while True:
         user_input = input("")
         send_to_clients(server_username, construct_action_request(user_input))
@@ -132,6 +145,9 @@ def user_input_send_action_request():
 
 user_input_thread = threading.Thread(target=user_input_send_action_request)
 user_input_thread.start()
+
+# End: User input send message with action
+#####################################################################################
 
 # initiates the server by starting the listening-loop
 listen_for_clients()

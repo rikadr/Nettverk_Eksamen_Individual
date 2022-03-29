@@ -1,10 +1,12 @@
 import random
 
+#####################################################################################
+# Start: Setup
 
 # list of known actions
 action_list = ["clean", "fight", "cook", "fish", "sing", "relax", "cheat", "ski", "talk", "shit", "listen", "eat",
-               "sleep", "fuck"]
-
+               "sleep"]
+# End: Setup
 #####################################################################################
 # Start: Bots
 
@@ -79,6 +81,11 @@ def bot_maren(actions):
     return random.choice(["No", "Nah", "Never", "Next year maybe", "Why am i even in this chat?"])
 
 
+# End: Bots
+#####################################################################################
+# Start: Functions
+
+
 def extract_actions(raw_message):
     if raw_message is None:
         return None
@@ -119,10 +126,8 @@ def run_bot(message, bot_id, get_usernames):
         actions = None
         return switcher.get(bot_id, )()
 
-    actions = extract_actions(message)  #?????????????????? REDUNDANT? Is above
-
     # runs chosen lambda function, returns username from bot function
     return switcher.get(bot_id, )()
 
-# End: Bots
+# End: Functions
 #####################################################################################

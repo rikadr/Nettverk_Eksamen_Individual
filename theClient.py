@@ -1,8 +1,6 @@
 import socket
 import threading
 import bots
-import argparse
-import random
 import sys
 
 # The help documentation
@@ -23,8 +21,8 @@ utf8 = "utf-8"
 
 if input("Setup mode: (0) Normal, (1) Auto") == "1":
     print("Auto setup")
-    IP = "127.0.0.1"
-    PORT = 7975
+    IP = "127.0.0.20"
+    PORT = 7997
 else:
     print("Manual Setup")
     # Getting command line parameters
