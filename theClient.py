@@ -18,17 +18,9 @@ import sys
 
 # defining encoding standard
 utf8 = "utf-8"
-
-if input("Setup mode: (0) Normal, (1) Auto") == "1":
-    print("Auto setup")
-    IP = "127.0.0.20"
-    PORT = 7997
-else:
-    print("Manual Setup")
-    # Getting command line parameters
-    IP = input("What IP do you want to connect to? > ")
-    PORT = input("At what port? > ")
-    print(f"{IP}:{PORT} confirmed\n")
+IP = "127.0.0.20"
+PORT = 7997
+print("Auto setup")
 
 # creating client socket
 c_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -117,6 +109,9 @@ def send_to_server(message):
 
 def check_to_reply(message):
     try:
+        if "joined the server" in message:  # bots will not respond to someone joining the server
+            return False
+
         for name in bot_username_list:
             if name in message:
                 return False  # False means bot should not reply

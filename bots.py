@@ -55,9 +55,12 @@ def bot_fredrik(actions):
         return name
 
     reply_0_actions = ["Have not tried that before, but im down to try it!", "Alright, let's do it"]
-    reply_multiple_actions = ["OK, {}ing it is!".format(random.choice(actions)),
-                              "I LOVE {}ing".format(random.choice(actions))]
-    return random.choice([random.choice(reply_0_actions), random.choice(reply_multiple_actions)])
+
+    if len(actions) > 0:
+        reply_multiple_actions = ["OK, {}ing it is!".format(random.choice(actions)),
+                                  "I LOVE {}ing".format(random.choice(actions))]
+        return random.choice([random.choice(reply_0_actions), random.choice(reply_multiple_actions)])
+    return random.choice(reply_0_actions)
 
 
 def bot_rikard(actions):
@@ -68,10 +71,15 @@ def bot_rikard(actions):
     reply_0_actions = ["How about next week?",
                        "Sorry, can't. Have spent {} hours gaming, "
                        "need to catch up on school".format(random.randrange(1, 100))]
-    reply_multiple_actions = ["... {}ing is more fun".format(random.choice(action_list)),
+
+    if len(actions) > 0:
+        reply_multiple_actions = ["... {}ing is more fun".format(random.choice(action_list)),
                               "{}ing is cool and all, but have you tried {}?!"
                               .format(random.choice(actions), random.choice(action_list))]
-    return random.choice([random.choice(reply_0_actions), random.choice(reply_multiple_actions)])
+        return random.choice([random.choice(reply_0_actions), random.choice(reply_multiple_actions)])
+    return random.choice(reply_0_actions)
+
+
 
 
 def bot_maren(actions):
@@ -96,7 +104,6 @@ def extract_actions(raw_message):
     for action in action_list:  # for every known action
         if action in message_lowercase:  # check if known action is mentioned in message
             actions.append(action)  # adds action if known action is found mentioned in message
-
     return actions  # returns list of found known actions
 
 
@@ -113,20 +120,12 @@ def run_bot(message, bot_id, get_usernames):
     # code to return all bot usernames if boolean get_usernames is true
     if get_usernames:
         bot_username_list = []  # prepares list to append all usernames
-        i = 1
-        while True:  # runs through all switch functions.
-            try:
-                bot_username_list.append(switcher.get(i, )())  # runs bot-functions with no parameter to get username
-                i += 1
-            except:
-                break  # stops when through all switch cases.
+        for idx, lam in enumerate(switcher):  # runs through all switch functions.
+            # runs bot functions with no parameter to get username
+            bot_username_list.append(switcher.get(idx + 1, )())
         return bot_username_list
 
-    if message is None:
-        actions = None
-        return switcher.get(bot_id, )()
-
-    # runs chosen lambda function, returns username from bot function
+    # runs chosen lambda function, returns generated reply string from bot function
     return switcher.get(bot_id, )()
 
 # End: Functions
