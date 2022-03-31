@@ -4,7 +4,8 @@ import random
 # Start: Setup
 
 # list of known actions
-action_list = ["clean", "fight", "cook", "fish", "sing", "relax", "cheat", "ski", "talk", "listen", "eat", "sleep"]
+action_list = ["clean", "fight", "cook", "fish", "sing", "relax", "cheat", "ski", "talk", "listen", "eat", "sleep",
+               "read", "play"]
 # End: Setup
 #####################################################################################
 # Start: Bots
@@ -16,16 +17,12 @@ def bot_peder(actions):
         return name
 
     action_count = len(actions)
-    reply_sentences = []
-
-    reply_0_actions = ["Don't really wanna do that.",
+    reply_sentences = ["Don't really wanna do that.",
          "Lame! Would much rather {}".format(random.choice(action_list)),
          "What did you suggest just now?!",
          "Do not expect to see me there...",
          "I can think of {} better things to do".format(random.randrange(0, 100)),
          "Even {}-{}ing sounds more fun".format(random.choice(action_list), random.choice(action_list))]
-    for reply in reply_0_actions:
-        reply_sentences.append(reply)
 
     if action_count >= 1:
         reply_1_action = ["Of all things to do in this world you really want to "
@@ -51,13 +48,16 @@ def bot_fredrik(actions):
     if actions is None:                                         # returns name if actions is None
         return name
 
-    reply_0_actions = ["Have not tried that before, but im down to try it!", "Alright, let's do it"]
+    reply_sentences = ["Have not tried that before, but im down to try it!", "Alright, let's do it"]
 
     if len(actions) > 0:
         reply_multiple_actions = ["OK, {}ing it is!".format(random.choice(actions)),
-                                  "I LOVE {}ing".format(random.choice(actions))]
-        return random.choice([random.choice(reply_0_actions), random.choice(reply_multiple_actions)])
-    return random.choice(reply_0_actions)
+                                  "I LOVE {}ing".format(random.choice(actions)),
+                                  "{}ing is so underrated!".format(random.choice(actions))]
+        for reply in reply_multiple_actions:
+            reply_sentences.append(reply)
+
+    return random.choice(reply_sentences)
 
 
 def bot_rikard(actions):
@@ -65,7 +65,7 @@ def bot_rikard(actions):
     if actions is None:                                         # returns name if actions is None
         return name
 
-    reply_0_actions = ["How about next week?",
+    reply_sentences = ["How about next week?",
                        "Sorry, can't. Have spent {} hours gaming, "
                        "need to catch up on school".format(random.randrange(1, 100))]
 
@@ -73,8 +73,10 @@ def bot_rikard(actions):
         reply_multiple_actions = ["... {}ing is more fun".format(random.choice(action_list)),
                                   "{}ing is cool and all, but have you tried {}?!"
                                   .format(random.choice(actions), random.choice(action_list))]
-        return random.choice([random.choice(reply_0_actions), random.choice(reply_multiple_actions)])
-    return random.choice(reply_0_actions)
+        for reply in reply_multiple_actions:
+            reply_sentences.append(reply)
+
+    return random.choice(reply_sentences)
 
 
 def bot_maren(actions):
@@ -102,7 +104,7 @@ def extract_actions(raw_message):
     return actions                                              # returns list of found known actions
 
 
-def run_bot(message, bot_id, get_usernames):
+def run_bot(message, bot_id, get_usernames=False):
     actions = extract_actions(message)                          # extract actions from message
     # a switch case to run the correct bot function based on selected bot_ID
     switcher = {
