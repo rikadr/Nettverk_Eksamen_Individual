@@ -13,7 +13,7 @@ action_list = ["clean", "fight", "cook", "fish", "sing", "relax", "cheat", "ski"
 
 def bot_peder(actions):
     name = "Peder"
-    if actions is None:
+    if actions is None:                                         # returns name if actions is None
         return name
 
     action_count = len(actions)
@@ -49,7 +49,7 @@ def bot_peder(actions):
 
 def bot_fredrik(actions):
     name = "Fredrik"
-    if actions is None:
+    if actions is None:                                         # returns name if actions is None
         return name
 
     reply_0_actions = ["Have not tried that before, but im down to try it!", "Alright, let's do it"]
@@ -63,7 +63,7 @@ def bot_fredrik(actions):
 
 def bot_rikard(actions):
     name = "Rikard"
-    if actions is None:
+    if actions is None:                                         # returns name if actions is None
         return name
 
     reply_0_actions = ["How about next week?",
@@ -80,9 +80,10 @@ def bot_rikard(actions):
 
 def bot_maren(actions):
     name = "Maren"
-    if actions is None:
+    if actions is None:                                         # returns name if actions is None
         return name
-    return random.choice(["No", "Nah", "Never", "Next year maybe", "Why am i even in this chat?"])
+
+    return random.choice(["No", "Nah", "Never", "Next year maybe", "Why am I even in this chat?"])
 
 
 # End: Bots
