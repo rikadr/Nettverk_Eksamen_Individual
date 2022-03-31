@@ -11,11 +11,11 @@ server_username = "*Server*"
 ip = "127.0.0.20"
 port = 7997
 
-s_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Creating a TCP/IP socket
-s_socket.bind((ip, port))  # binds the ip address and port
-s_socket.listen()  # Have the server listen for client connections
+s_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)    # Creating a TCP/IP socket
+s_socket.bind((ip, port))                                       # binds the ip address and port
+s_socket.listen()                                               # Have the server listen for client connections
 
-clients_list = []    # A list to hold the client objects
+clients_list = []                                               # A list to hold the client objects
 
 
 # A class to hold the client connection and username
@@ -32,17 +32,15 @@ class Client:
 # Function to continuously listen for new client connections
 def listen_for_clients():
     while True:
-        connection, address = s_socket.accept()  # wait for a new connecting client and accept
+        connection, address = s_socket.accept()                 # wait for a new connecting client and accept
 
-        try:
-            # Asks for username from client and assigns username
+        try:  # Asks for username from client and assigns username
             connection.send("USERNAMEREQUEST".encode(utf8))
             username = connection.recv(1024).decode(utf8)
-            # print(f"SERVER GOT USERNAME: *{username}*")
-            client = Client()   # creates a Client object for the new client and adds attributes
-            client.connection = connection
+            client = Client()                                   # creates a Client object for the new client
+            client.connection = connection                      # adds the attributes to object
             client.username = username
-            clients_list.append(client)  # adds new client to the list of connected clients
+            clients_list.append(client)                         # adds new client to the list of connected clients
             print(f"{client.username} connected!")
 
             # broadcasts to all connected clients about the new joined client
@@ -70,12 +68,12 @@ def receive_from_clients(client):
                 exit()
         except:
             print(f"Error in receiving from {client.username}. Disconnecting client ...")
-            client.connection.close()  # closes connection if unable to receive from client
-            clients_list.remove(client)  # removes client from list of connected clients
+            client.connection.close()                           # closes connection if unable to receive from client
+            clients_list.remove(client)                         # removes client from list of connected clients
 
             # announces the disconnect to all remaining connected clients
             send_to_clients(server_username, f"{client.username} disconnected")
-            print_clients()  # prints list of remaining connected clients
+            print_clients()                                     # prints list of remaining connected clients
             break
 
 
@@ -105,19 +103,19 @@ def print_clients():
 def construct_action_request(user_input):
     # lists of sentences
     sentence_list = ["Does anyone want to {}?", "Who's up for some {}ing?", "Let's {}!", "{}ing. Yay or nay?"]
-    action_list = bots.action_list                  # gets list of defined actions from bots.py
-    output_string = random.choice(sentence_list)    # picks a random sentence
+    action_list = bots.action_list                              # gets list of defined actions from bots.py
+    output_string = random.choice(sentence_list)                # picks a random sentence
 
-    if user_input == "":    # without user input
+    if user_input == "":                                        # without user input
         output_string = output_string.format(random.choice(action_list))
         return output_string
 
     try:
-        if 4 >= int(user_input) >= 2:  # without user input number between 2 and 4
-            action_chain = ""  # prepares string to add all actions to
+        if 4 >= int(user_input) >= 2:                           # without user input number between 2 and 4
+            action_chain = ""                                   # prepares string to add all actions to
             for i in range(int(user_input)):
                 action_chain += random.choice(action_list)
-                if i < (int(user_input) - 2):   # formats actions with ", " and " or "
+                if i < (int(user_input) - 2):                   # formats actions with ", " and " or "
                     action_chain += ", "
                 elif i == (int(user_input) - 2):
                     action_chain += " or "
@@ -125,11 +123,11 @@ def construct_action_request(user_input):
             output_string = output_string.format(action_chain)
             return output_string
 
-        else:   # if number is not between 2 and 4
+        else:                                                   # if number is not between 2 and 4
             output_string = output_string.format(random.choice(action_list))
 
     except:
-        output_string = output_string.format(user_input)    # with user input string
+        output_string = output_string.format(user_input)        # with user input string
 
     return output_string
 
@@ -149,5 +147,4 @@ user_input_thread.start()
 # End: User input send message with action
 #####################################################################################
 
-# initiates the server by starting the listening-loop
-listen_for_clients()
+listen_for_clients()                                            # initiates the server by starting the listening-loop

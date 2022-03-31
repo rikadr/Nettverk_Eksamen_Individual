@@ -98,17 +98,17 @@ def extract_actions(raw_message):
     if raw_message is None:
         return None
 
-    message_lowercase = raw_message.lower()  # sets all characters to lowercase to match action_list
-    actions = []  # prepares list to add matches to and return
+    message_lowercase = raw_message.lower()                     # sets all characters to lowercase to match action_list
+    actions = []                                                # prepares list to add matches to and return
 
-    for action in action_list:  # for every known action
-        if action in message_lowercase:  # check if known action is mentioned in message
-            actions.append(action)  # adds action if known action is found mentioned in message
-    return actions  # returns list of found known actions
+    for action in action_list:                                  # for every known action
+        if action in message_lowercase:                         # check if known action is mentioned in message
+            actions.append(action)                              # adds action if found mentioned in message
+    return actions                                              # returns list of found known actions
 
 
 def run_bot(message, bot_id, get_usernames):
-    actions = extract_actions(message)  # extract actions from message
+    actions = extract_actions(message)                          # extract actions from message
     # a switch case to run the correct bot function based on selected bot_ID
     switcher = {
         1: lambda: bot_peder(actions),
@@ -119,14 +119,12 @@ def run_bot(message, bot_id, get_usernames):
 
     # code to return all bot usernames if boolean get_usernames is true
     if get_usernames:
-        bot_username_list = []  # prepares list to append all usernames
-        for idx, lam in enumerate(switcher):  # runs through all switch functions.
-            # runs bot functions with no parameter to get username
-            bot_username_list.append(switcher.get(idx + 1, )())
+        bot_username_list = []                                  # prepares list to append all usernames
+        for idx, lam in enumerate(switcher):                    # runs through all switch functions.
+            bot_username_list.append(switcher.get(idx + 1, )())  # runs bot functions with no parameter to get username
         return bot_username_list
 
-    # runs chosen bot, returns generated reply string
-    return switcher.get(bot_id, )()
+    return switcher.get(bot_id, )()                             # runs chosen bot, returns generated reply string
 
 # End: Functions
 #####################################################################################

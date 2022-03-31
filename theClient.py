@@ -16,15 +16,15 @@ import sys
 #####################################################################################
 # Start: Setup
 
-# defining encoding standard
-utf8 = "utf-8"
+utf8 = "utf-8"                                                  # defining encoding standard
 IP = "127.0.0.20"
 PORT = 7997
 print("Auto setup")
 
+c_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)    # creating client socket
 
-c_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # creating client socket
-try:  # tries to connect, exits if unable to connect
+# tries to connect, exits if unable to connect
+try:
     c_socket.connect((IP, PORT))
     print("Connection successful!")
 except:
@@ -37,28 +37,28 @@ except:
 
 # getting the list of all available bots from the bots.py file
 bot_username_list = bots.run_bot(None, None, True)
-client_is_bot = None    # currently unknown
+client_is_bot = None                                            # currently unknown
 
 while True:  # Loop to request bot choice
-    bot_list_output = "Available bots: 0=[Manual input] "    # String to add all bot names to
+    bot_list_output = "Available bots: 0=[Manual input] "       # String to add all bot names to
     for idx, item in enumerate(bot_username_list):
-        bot_list_output += f"{idx + 1}={item}  "    # adds each bot name to string
+        bot_list_output += f"{idx + 1}={item}  "                # adds each bot name to string
 
     while True:
         try:
             print(bot_list_output)
-            bot_ID = int(input("Choose bot number > "))  # asks for bot name input
+            bot_ID = int(input("Choose bot number > "))         # asks for bot name input
             break
         except:
             print("Not valid input. Only numbers please. Try again.\n")
 
-    if len(bot_username_list) > bot_ID - 1 >= 0:  # checks if input is within range of bots
+    if len(bot_username_list) > bot_ID - 1 >= 0:                # checks if input is within range of bots
         print(f"You selected bot {bot_ID}: {bot_username_list[bot_ID - 1]}")
         client_is_bot = True
-        break  # stops loop after a bot is chosen
+        break                                                   # stops loop after a bot is chosen
     elif bot_ID == 0:
-        client_is_bot = False  # If input is 0 client is not set as a bot
-        break  # stops loop when manual input is chosen
+        client_is_bot = False                                   # If input is 0 client is not set as a bot
+        break                                                   # stops loop when manual input is chosen
 
     # Prints if user input is not valid
     print(f"{str(bot_ID)} is not an available choice. Please try again.\n")
@@ -69,19 +69,18 @@ while True:  # Loop to request bot choice
 
 
 def receive_from_server(client_username):
-    # print("Receiving now <<<")
     while True:
         try:
             message = c_socket.recv(1024).decode(utf8)
 
-            if message == "USERNAMEREQUEST":  # If received message is a username request
+            if message == "USERNAMEREQUEST":                    # If received message is a username request
                 send_to_server(client_username)
-            else:  # If received message is a normal message
+            else:                                               # If received message is a normal message
                 print(message)
                 # replies to message if client is a bot and sender is not a bot
                 if client_is_bot and check_to_reply(message):
                     bot_reply_message = bots.run_bot(message, bot_ID, False)    # prepares reply string
-                    send_to_server(bot_reply_message)   # sends message to server
+                    send_to_server(bot_reply_message)           # sends message to server
                     print(f"You: {bot_reply_message}")
 
 
@@ -93,8 +92,8 @@ def receive_from_server(client_username):
 
 def type_message():
     while True:
-        message = input("")
-        send_to_server(message)
+        message = input("")                                     # waits for input from the user
+        send_to_server(message)                                 # sends user input as a message to server
 
 
 def send_to_server(message):
@@ -103,32 +102,28 @@ def send_to_server(message):
 
 # End: Sending/Receiving
 #####################################################################################
-
+# Start: Program ...
 
 def check_to_reply(message):
     try:
-        if "joined the server" in message:  # bots will not respond to someone joining the server
+        if "joined the server" in message:                      # bots will not respond to someone joining the server
             return False
 
         for name in bot_username_list:
             if name in message:
-                return False  # False means bot should not reply
-        return True  # True means bot should reply
+                return False                                    # False means bot should not reply
+        return True                                             # True means bot should reply
 
     except:
         print("Failed to check for names")
         return False
 
 
-#####################################################################################
-# Start: Program ...
-
-
 # Defining username
 if client_is_bot:
-    username = bot_username_list[bot_ID - 1]    # gets username of chosen bot from list
+    username = bot_username_list[bot_ID - 1]                    # gets username of chosen bot from list
 else:
-    username = input("Type your username: ")    # asks input for username if manual input is chosen
+    username = input("Type your username: ")                    # asks input for username if manual input is chosen
 
 # receiving messages with following thread
 receive_from_server_thread = threading.Thread(target=receive_from_server, args=(username,))
