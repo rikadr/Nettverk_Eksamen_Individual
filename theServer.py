@@ -8,8 +8,8 @@ import bots
 
 utf8 = "utf-8"
 server_username = "*Server*"
-ip = "127.0.0.20"
-port = 7997
+ip = "127.0.0.21"
+port = 7996
 
 s_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)    # Creating a TCP/IP socket
 s_socket.bind((ip, port))                                       # binds the ip address and port

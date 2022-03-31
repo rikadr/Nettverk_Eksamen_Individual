@@ -3,22 +3,12 @@ import threading
 import bots
 import sys
 
-# The help documentation
-# DESCRIPTION
-# parser = argparse.ArgumentParser(description="This chat client connects to a chat server and "
-#                                             "lets a bot of your choosing reply to messages in the chat. It takes"
-#                                             "three command line parameters: IP, PORT and BOT.")
-# parser.add_argument('IP', type=str, help="The IP address you want to connect to.")  # IP parameter
-# parser.add_argument('PORT', type=str, help="The PORT you want to connect to.")      # PORT parameter
-# parser.add_argument('BOT', type=str, help="The BOT you want to run.")               # BOT parameter
-# args = parser.parse_args()
-
 #####################################################################################
 # Start: Setup
 
 utf8 = "utf-8"                                                  # defining encoding standard
-IP = "127.0.0.20"
-PORT = 7997
+IP = "127.0.0.21"                                              # getting IP and PORT from Server to ensure they ...
+PORT = 7996                                     # ... are the same
 print("Auto setup")
 
 c_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)    # creating client socket

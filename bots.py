@@ -17,36 +17,34 @@ def bot_peder(actions):
         return name
 
     action_count = len(actions)
+    reply_sentences = []
+
     reply_0_actions = ["Don't really wanna do that.",
          "Lame! Would much rather {}".format(random.choice(action_list)),
          "What did you suggest just now?!",
          "Do not expect to see me there...",
          "I can think of {} better things to do".format(random.randrange(0, 100)),
          "Even {}-{}ing sounds more fun".format(random.choice(action_list), random.choice(action_list))]
+    for reply in reply_0_actions:
+        reply_sentences.append(reply)
 
     if action_count >= 1:
         reply_1_action = ["Of all things to do in this world you really want to "
                           "do some stupid {}ing?".format(actions[0]),
                           "I'll think about it. {}ing isn't really my thing ...".format(random.choice(actions)),
                           "I'm down to {} if you give me ${}".format(random.choice(actions), random.randrange(1, 1500))]
+        for reply in reply_1_action:
+            reply_sentences.append(reply)
 
     if action_count >= 2:
         reply_multiple_actions = ["Make your mind up, {} or {}?".format(actions[1], actions[0]),
                             "How about some {}-{}ing?".format(random.choice(actions), random.choice(action_list)),
                             "You can go {} and i'll go {}".format(random.choice(actions), random.choice(action_list)),
                             "You can go {} and i'll go {}".format(actions[0], actions[1])]
+        for reply in reply_multiple_actions:
+            reply_sentences.append(reply)
 
-    if action_count == 0:
-        return random.choice(reply_0_actions)
-
-    elif action_count == 1:
-        return random.choice([random.choice(reply_0_actions), random.choice(reply_1_action)])
-
-    elif action_count >= 2:
-        return random.choice([random.choice(reply_0_actions), random.choice(reply_1_action),
-                             random.choice(reply_multiple_actions)])
-    else:
-        return "Unknown action count"
+    return random.choice(reply_sentences)
 
 
 def bot_fredrik(actions):
@@ -80,8 +78,6 @@ def bot_rikard(actions):
     return random.choice(reply_0_actions)
 
 
-
-
 def bot_maren(actions):
     name = "Maren"
     if actions is None:
@@ -92,7 +88,6 @@ def bot_maren(actions):
 # End: Bots
 #####################################################################################
 # Start: Functions
-
 
 def extract_actions(raw_message):
     if raw_message is None:
