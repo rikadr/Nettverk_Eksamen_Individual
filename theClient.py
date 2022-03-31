@@ -22,11 +22,9 @@ IP = "127.0.0.20"
 PORT = 7997
 print("Auto setup")
 
-# creating client socket
-c_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# tries to connect, exits if unable to connect
-try:
+c_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # creating client socket
+try:  # tries to connect, exits if unable to connect
     c_socket.connect((IP, PORT))
     print("Connection successful!")
 except:

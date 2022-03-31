@@ -74,8 +74,8 @@ def bot_rikard(actions):
 
     if len(actions) > 0:
         reply_multiple_actions = ["... {}ing is more fun".format(random.choice(action_list)),
-                              "{}ing is cool and all, but have you tried {}?!"
-                              .format(random.choice(actions), random.choice(action_list))]
+                                  "{}ing is cool and all, but have you tried {}?!"
+                                  .format(random.choice(actions), random.choice(action_list))]
         return random.choice([random.choice(reply_0_actions), random.choice(reply_multiple_actions)])
     return random.choice(reply_0_actions)
 
@@ -125,7 +125,7 @@ def run_bot(message, bot_id, get_usernames):
             bot_username_list.append(switcher.get(idx + 1, )())
         return bot_username_list
 
-    # runs chosen lambda function, returns generated reply string from bot function
+    # runs chosen bot, returns generated reply string
     return switcher.get(bot_id, )()
 
 # End: Functions
