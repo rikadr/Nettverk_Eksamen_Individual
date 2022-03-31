@@ -4,8 +4,7 @@ import random
 # Start: Setup
 
 # list of known actions
-action_list = ["clean", "fight", "cook", "fish", "sing", "relax", "cheat", "ski", "talk", "shit", "listen", "eat",
-               "sleep"]
+action_list = ["clean", "fight", "cook", "fish", "sing", "relax", "cheat", "ski", "talk", "listen", "eat", "sleep"]
 # End: Setup
 #####################################################################################
 # Start: Bots
